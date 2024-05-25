@@ -19,5 +19,18 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Run script
+        - name: Extract PR Data
+        id: extract_pr_data
+        run: |
+          echo "PR_NUMBER=${{ github.event.number }}" >> $GITHUB_ENV
+          echo "PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
+          echo "PR_BODY=${{ github.event.pull_request.body }}" >> $GITHUB_ENV
+          echo "PR_USER=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
+  
+    - name: Run Python script
       run: python script.py
+      env:
+        PR_NUMBER: ${{ env.PR_NUMBER }}
+        PR_TITLE: ${{ env.PR_TITLE }}
+        PR_BODY: ${{ env.PR_BODY }}
+        PR_USER: ${{ env.PR_USER }}
