@@ -22,17 +22,10 @@ jobs:
     - name: Extract PR Data
       id: extract_pr_data
       run: |
-        echo "PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
-        echo "PR_BODY=${{ github.event.pull_request.body }}" >> $GITHUB_ENV
-        
-    - name: Fetch PR Files
-      id: fetch_pr_files
-      run: |
-        PR_FILES=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-        "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files" \
-        | jq -r '.[].filename')
-        echo "PR_FILES=${PR_FILES}" >> $GITHUB_ENV
-
+        if [ "${{ github.event_name }}" == "pull_request" ]; then
+          PR_DIFF=$(curl -sSL "${{ github.event.pull_request.diff_url }}")
+          echo "PR_DIFF=${PR_DIFF}" >> $GITHUB_ENV
+        fi
     - name: Run Python script
       run: python script.py
       env:
@@ -40,3 +33,4 @@ jobs:
         PR_TITLE: ${{ env.PR_TITLE }}
         PR_BODY: ${{ env.PR_BODY }}
         PR_USER: ${{ env.PR_USER }}
+        PR_FILES: ${{ env.PR_FILES }}
