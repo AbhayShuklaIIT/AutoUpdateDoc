@@ -1,25 +1,45 @@
 import os
+from googleapiclient.discovery import build
+import openai
 
-def main():
-    pr_number = os.getenv('PR_NUMBER')
-    pr_title = os.getenv('PR_TITLE')
-    pr_body = os.getenv('PR_BODY')
-    pr_user = os.getenv('PR_USER')
-    pr_files = os.getenv('PR_FILES')
 
-    print(f"PR Number: {pr_number}")
-    print(f"PR Title: {pr_title}")
-    print(f"PR Body: {pr_body}")
-    print(f"PR User: {pr_user}")
-    print(f"PR Files: {pr_files}")
+pr_title = os.getenv('PR_TITLE')
+pr_body = os.getenv('PR_BODY')
+pr_diff = os.getenv('PR_DIFF')
 
-    # Convert the PR_FILES string to a list
-    pr_files_list = pr_files.split()
+# pr_body = ""
+f = open("README.md", "r")
+support_doc = f.read()
 
-    # Your code to process the PR data and files
-    # ...
-    for file in pr_files_list:
-        print(f"Modified file: {file}")
+prompt = "Support doc - " + support_doc + " -Update my support doccumentation using the following PRD" + pr_body + " \n and following code change" 
 
-if __name__ == "__main__":
-    main()
+# k = b'LfHKLsPWn6VvsLPcA4uuX7j5w5IB1HifiCj48sTwxs4='
+
+# encMessage = fernet.encrypt(message.encode())
+
+# Replace 'your-api-key' with your actual OpenAI API key
+openai.api_key = os.getenv("OPENAPI_KEY")
+
+# Example function to generate a completion from the GPT model
+def generate_text(prompt, model="gpt-3.5-turbo", max_tokens=4096):
+    response = openai.ChatCompletion.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=max_tokens,
+        n=1,
+        stop=None,
+        temperature=0.7,
+    )
+    return response['choices'][0]['message']['content'].strip()
+
+# Example usage
+# prompt = "Tell me a joke."
+result = (generate_text(prompt))
+
+f = open("README.md", "a")
+print(result)
+f.write(result+"Abhay")
+f.close()
