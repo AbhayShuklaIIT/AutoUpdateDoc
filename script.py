@@ -1,38 +1,44 @@
 import os
-from googleapiclient.discovery import build
+import openai
 
 
 pr_title = os.getenv('PR_TITLE')
 pr_body = os.getenv('PR_BODY')
 pr_diff = os.getenv('PR_DIFF')
 
+# pr_body = ""
+f = open("README.md", "r")
+support_doc = f.read()
 
+prompt = "Support doc - " + support_doc + " -Update my support doccumentation using the following PRD" + pr_body + " \n and following code change" 
 
-# API key for accessing the Google Docs API
-API_KEY = 'AIzaSyAZ73ggefuQndZg9i1zodPb-TykfdoxRGc'
+# k = b'LfHKLsPWn6VvsLPcA4uuX7j5w5IB1HifiCj48sTwxs4='
 
-# ID of the Google Doc you want to update
-DOCUMENT_ID = '1hELcJdxkvA5_-6jGfdHjoYYdeEX5dmioYkL2Y8CzsVU'
+# encMessage = fernet.encrypt(message.encode())
 
-def main():
-    # Build the service
-    service = build('docs', 'v1', developerKey=API_KEY)
+# Replace 'your-api-key' with your actual OpenAI API key
+openai.api_key = os.getenv("OPENAPI_KEY")
 
-    # Get the document content
-    doc = service.documents().get(documentId=DOCUMENT_ID).execute()
+# Example function to generate a completion from the GPT model
+def generate_text(prompt, model="gpt-3.5-turbo", max_tokens=4096):
+    response = openai.ChatCompletion.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=max_tokens,
+        n=1,
+        stop=None,
+        temperature=0.7,
+    )
+    return response['choices'][0]['message']['content'].strip()
 
-    # Modify the document content
-    content = doc.get('body').get('content')
-    new_content = "Hello, this is an updated content!"
-    content.append({'paragraph': {'elements': [{'textRun': {'content': new_content}}]}})
+# Example usage
+# prompt = "Tell me a joke."
+result = (generate_text(prompt))
 
-    # Update the document
-    service.documents().batchUpdate(
-        documentId=DOCUMENT_ID,
-        body={'requests': [{'insertText': {'location': {'index': len(content) - 1}, 'text': new_content}}]}
-    ).execute()
-
-if __name__ == '__main__':
-    main()
-
-
+f = open("README.md", "a")
+print(result)
+f.write(result+"Abhay")
+f.close()
