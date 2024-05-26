@@ -34,8 +34,10 @@ jobs:
         PR_BODY: ${{ env.PR_BODY }}
         PR_FILES: ${{ env.PR_DIFF }}
 
-    - name: Commit and push changes
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: Update README
-        branch: ${{ github.ref }}
+    - name: Update changes in GitHub repository
+      run:  |
+        git config --global user.name 'Your Name' 
+        git config --global user.email 'Your Email for GitHub'
+        git add -A
+        git commit -m '[automated commit] add configs generated using jsonnet & GitHub workflow'
+        git push
