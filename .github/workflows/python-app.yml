@@ -33,3 +33,9 @@ jobs:
         PR_TITLE: ${{ env.PR_TITLE }}
         PR_BODY: ${{ env.PR_BODY }}
         PR_FILES: ${{ env.PR_DIFF }}
+
+    - name: Commit and push changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Update README
+        branch: ${{ github.ref }}
