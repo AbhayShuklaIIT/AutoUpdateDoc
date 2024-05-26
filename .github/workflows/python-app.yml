@@ -22,11 +22,8 @@ jobs:
     - name: Extract PR Data
       run: |
         echo "PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
-        echo "PR_BODY=${{ github.event.pull_request.body }}" >> $GITHUB_ENV
-        PR_BODY="${{ github.event.pull_request.body }}"
-        while IFS= read -r line; do
-          echo "PR_BODY+=${line}" >> $GITHUB_ENV
-        done <<< "$PR_BODY""
+        echo "PR_BODY='$(echo "${{ github.event.pull_request.body }}" | sed ':a;N;$!ba;s/\n/\\n/g')'" >> $GITHUB_ENV
+
 
     - name: Run Python script
       run: python script.py
