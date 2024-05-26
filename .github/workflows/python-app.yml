@@ -4,6 +4,8 @@ on: [pull_request]
 jobs:
   run-python-script:
     runs-on: ubuntu-latest
+    env:
+      OPENAPI_KEY: ${{ secrets.OPENAPI_KEY }}
 
     steps:
     - name: Checkout repository
@@ -20,12 +22,15 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Extract PR Data
-      id: extract_pr_data
       run: |
-        PR_DIFF=$(curl -sSL "${{ github.event.pull_request.diff_url }}")
-        echo "PR_DIFF=${PR_DIFF}" >> $GITHUB_ENV
         echo "PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
-        echo "PR_BODY=${{ github.event.pull_request.body }}" >> $GITHUB_ENV
+        echo "PR_BODY='$(echo "${{ github.event.pull_request.body }}" | sed ':a;N;$!ba;s/\n/\\n/g')'" >> $GITHUB_ENV
+    
+    - name: Commit and push changes
+      run: |
+        git config --global user.email "actions@github.com"
+        git config --global user.name "GitHub Actions"
+        git checkout main
 
     - name: Run Python script
       run: python script.py
@@ -33,3 +38,11 @@ jobs:
         PR_TITLE: ${{ env.PR_TITLE }}
         PR_BODY: ${{ env.PR_BODY }}
         PR_FILES: ${{ env.PR_DIFF }}
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.email "actions@github.com"
+        git config --global user.name "GitHub Actions"
+        git add .
+        git commit -m "Automated changes from GitHub Actions"
+        git push
