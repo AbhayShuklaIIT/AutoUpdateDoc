@@ -1,1 +1,1 @@
-pip install googleapiclient
+pip install openai
