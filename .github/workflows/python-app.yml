@@ -4,6 +4,8 @@ on: [pull_request]
 jobs:
   run-python-script:
     runs-on: ubuntu-latest
+    env:
+      MY_SECRET: ${{ secrets.OPENAPI_KEY }}
 
     steps:
     - name: Checkout repository
