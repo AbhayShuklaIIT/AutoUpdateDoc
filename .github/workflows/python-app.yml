@@ -21,7 +21,6 @@ jobs:
 
     - name: Extract PR Data
       run: |
-        echo "PR_DIFF=$(curl -sSL "${{ github.event.pull_request.diff_url }}")" >> $GITHUB_ENV
         echo "PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
         echo "PR_BODY=${{ github.event.pull_request.body }}" >> $GITHUB_ENV
 
