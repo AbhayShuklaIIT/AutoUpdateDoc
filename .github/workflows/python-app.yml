@@ -41,4 +41,3 @@ jobs:
         git checkout main
         git add .
         git commit -m "Automated changes from GitHub Actions"
-        git push origin main
