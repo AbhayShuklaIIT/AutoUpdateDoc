@@ -41,4 +41,4 @@ jobs:
         git checkout ${{ github.head_ref }}
         git add .
         git commit -m "Automated changes from GitHub Actions"
-        git push
+        git push origin ${{ github.head_ref }}
