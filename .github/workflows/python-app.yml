@@ -1,5 +1,5 @@
 
-on: [pull_request]
+on: [push, pull_request]
 
 jobs:
   run-python-script:
@@ -22,8 +22,10 @@ jobs:
     - name: Extract PR Data
       id: extract_pr_data
       run: |
-        PR_DIFF=$(curl -sSL "${{ github.event.pull_request.diff_url }}")
-        echo "PR_DIFF=${PR_DIFF}" >> $GITHUB_ENV
+        if [ "${{ github.event_name }}" == "pull_request" ]; then
+          PR_DIFF=$(curl -sSL "${{ github.event.pull_request.diff_url }}")
+          echo "PR_DIFF=${PR_DIFF}" >> $GITHUB_ENV
+        fi
         echo "PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
         echo "PR_BODY=${{ github.event.pull_request.body }}" >> $GITHUB_ENV
 
