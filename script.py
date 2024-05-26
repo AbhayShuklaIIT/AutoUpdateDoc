@@ -17,7 +17,7 @@ prompt = "Support doc - " + support_doc + " -Update my support doccumentation us
 # encMessage = fernet.encrypt(message.encode())
 
 # Replace 'your-api-key' with your actual OpenAI API key
-openai.api_key = os.getenv("OPENAPI_KEY")
+openai.api_key = os.environ.get("OPENAPI_KEY")
 
 # Example function to generate a completion from the GPT model
 def generate_text(prompt, model="gpt-3.5-turbo", max_tokens=4096):
