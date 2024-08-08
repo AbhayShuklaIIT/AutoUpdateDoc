@@ -55,7 +55,8 @@ def read_support_doc(api_url):
 f = read_support_doc(api_url)
 support_doc = f
 
-prompt = "Give me the parts that needed to be added at API section (I am trying to add forecast api endpoint) that will be directly linked to this PRD - "+pr_body + "\n\n This is the support doc" + support_doc 
+prompt = "Give me the parts that needed to be added at API section (I am trying to add forecast api endpoint) that will be directly linked to this PRD - "+pr_body + "\n\n This is the support doc" + support_doc
++ "\n\n Always highlight the part that is proposed for addition" 
 
 # Replace 'your-api-key' with your actual OpenAI API key
 # openai.api_key = os.getenv("OPENAPI_KEY")
