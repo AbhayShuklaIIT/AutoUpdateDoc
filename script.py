@@ -1,12 +1,18 @@
 import os
-from googleapiclient.discovery import build
-import openai
+from openai import OpenAI 
 import requests
 
-pr_title = os.getenv('PR_TITLE')
-pr_body = os.getenv('PR_BODY')
-pr_diff = os.getenv('PR_DIFF')
-api_url = "aee9-2401-4900-883a-c826-ad65-ff97-88f7-1d66.ngrok-free.app"
+client = OpenAI() 
+
+# pr_title = os.getenv('PR_TITLE')
+# pr_body = os.getenv('PR_BODY')
+# pr_diff = os.getenv('PR_DIFF')
+
+pr_title = "ascd"
+pr_body = "ascd"
+pr_diff = "ascd"
+
+api_url = "https://aee9-2401-4900-883a-c826-ad65-ff97-88f7-1d66.ngrok-free.app"
 
 def append_to_support_doc(api_url, content):
     headers = {
@@ -18,7 +24,7 @@ def append_to_support_doc(api_url, content):
     }
     
     try:
-        response = requests.post(api_url, json=data, headers=headers)
+        response = requests.post(api_url+"/append-support-doc", json=data, headers=headers)
         
         if response.status_code == 200:
             print("Content appended successfully.")
@@ -31,12 +37,13 @@ def append_to_support_doc(api_url, content):
 
 def read_support_doc(api_url):
     try:
-        response = requests.get(api_url)
+        response = requests.get(api_url+"/read-support-doc")
         
         if response.status_code == 200:
             content = response.json().get('content', '')
             print("Support Doc Content:\n")
             print(content)
+            return content
         else:
             print(f"Failed to read content. Status Code: {response.status_code}")
             print(f"Error: {response.json()}")
@@ -45,17 +52,17 @@ def read_support_doc(api_url):
         print(f"An error occurred: {str(e)}")
 
 # pr_body = ""
-f = open("README.md", "r")
-support_doc = f.read()
+f = read_support_doc(api_url)
+support_doc = f
 
-prompt = "Support doc - " + support_doc + " -Update my support doccumentation using the following PRD" + pr_body + " \n and following code change" 
+prompt = "Support doc - " + support_doc + " - Give me the parts that needed to be added at the end of my support doc using the following PRD" + pr_body + " \n and following code change" 
 
 # Replace 'your-api-key' with your actual OpenAI API key
-openai.api_key = os.getenv("OPENAPI_KEY")
+# openai.api_key = os.getenv("OPENAPI_KEY")
 
 # Example function to generate a completion from the GPT model
 def generate_text(prompt, model="gpt-3.5-turbo", max_tokens=4096):
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model=model,
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
@@ -66,13 +73,24 @@ def generate_text(prompt, model="gpt-3.5-turbo", max_tokens=4096):
         stop=None,
         temperature=0.7,
     )
-    return response['choices'][0]['message']['content'].strip()
+    # response = client.chat.completions.create(
+    #         model="gpt-3.5-turbo",
+    #         messages=messages,
+    #         temperature=0,
+    #         max_tokens=512,
+    #         top_p=1,
+    #         frequency_penalty=0,
+    #         presence_penalty=0,
+    #         stop=None,
+    #     )
+    return response.choices[0].message.content   
 
 # Example usage
 # prompt = "Tell me a joke."
 result = (generate_text(prompt))
 
-f = open("README.md", "a")
+# f = open("README.md", "a")
 print(result)
-f.write(result+"Abhay")
-f.close()
+# f.write(result+"Abhay")
+append_to_support_doc(api_url, result)
+# f.close()
