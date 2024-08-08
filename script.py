@@ -84,4 +84,3 @@ print(result)
 result = result.replace("```markdown","")
 # f.write(result+"Abhay")
 append_to_support_doc(api_url, "#Suggested changes by AI\n\n" + result)
-
