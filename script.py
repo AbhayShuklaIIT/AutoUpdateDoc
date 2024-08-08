@@ -83,3 +83,4 @@ result = (generate_text(prompt))
 print(result)
 # f.write(result+"Abhay")
 append_to_support_doc(api_url, result)
+
