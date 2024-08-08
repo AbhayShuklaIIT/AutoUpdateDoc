@@ -73,16 +73,6 @@ def generate_text(prompt, model="gpt-3.5-turbo", max_tokens=4096):
         stop=None,
         temperature=0.7,
     )
-    # response = client.chat.completions.create(
-    #         model="gpt-3.5-turbo",
-    #         messages=messages,
-    #         temperature=0,
-    #         max_tokens=512,
-    #         top_p=1,
-    #         frequency_penalty=0,
-    #         presence_penalty=0,
-    #         stop=None,
-    #     )
     return response.choices[0].message.content   
 
 # Example usage
