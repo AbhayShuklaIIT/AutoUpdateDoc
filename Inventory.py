@@ -77,7 +77,5 @@ def forecast_item(item_id):
     forecast = avg_sales_per_day * 7
     return jsonify({'forecast': forecast}), 200
 
-
-
 if __name__ == '__main__':
     app.run(debug=True)
