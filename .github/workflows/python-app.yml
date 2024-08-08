@@ -24,8 +24,6 @@ jobs:
       run: |
         PR_DIFF=$(curl -sSL "${{ github.event.pull_request.diff_url }}")
         echo "PR_DIFF=${PR_DIFF}" >> $GITHUB_ENV
-        echo "PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
-        echo "PR_BODY=${{ github.event.pull_request.body }}" >> $GITHUB_ENV
 
     - name: Run Python script
       run: python script.py
@@ -33,13 +31,3 @@ jobs:
         PR_TITLE: ${{ env.PR_TITLE }}
         PR_BODY: ${{ env.PR_BODY }}
         PR_FILES: ${{ env.PR_DIFF }}
-
-    - name: Commit and push changes
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add README.md
-        git commit -m 'Update README'
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
