@@ -22,11 +22,12 @@ jobs:
     - name: Extract PR Data
       id: extract_pr_data
       run: |
-        PR_DIFF=$(curl -sSL "${{ github.event.pull_request.diff_url }}")
-        echo "PR_DIFF=${PR_DIFF}" >> $GITHUB_ENV
+        curl -sSL "${{ github.event.pull_request.diff_url }}" > pr_diff.txt
+        echo "PR_DIFF=pr_diff.txt" >> $GITHUB_ENV
 
     - name: Run Python script
       run: python script.py
       env:
         PR_TITLE: ${{ env.PR_TITLE }}
         PR_BODY: ${{ env.PR_BODY }}
+        PR_FILES: ${{ env.PR_DIFF }}
