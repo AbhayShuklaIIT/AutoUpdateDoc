@@ -12,7 +12,7 @@ pr_title = "ascd"
 pr_body = "ascd"
 pr_diff = "ascd"
 
-api_url = "https://aee9-2401-4900-883a-c826-ad65-ff97-88f7-1d66.ngrok-free.app"
+api_url = "https://cce5-2401-4900-883a-c826-ad65-ff97-88f7-1d66.ngrok-free.app"
 
 def append_to_support_doc(api_url, content):
     headers = {
@@ -83,4 +83,3 @@ result = (generate_text(prompt))
 print(result)
 # f.write(result+"Abhay")
 append_to_support_doc(api_url, result)
-# f.close()
