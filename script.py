@@ -6,7 +6,7 @@ client = OpenAI()
 
 pr_title = os.getenv('PR_TITLE')
 pr_body = os.getenv('PR_BODY')
-pr_diff = os.getenv('PR_DIFF')
+# pr_diff = os.getenv('PR_DIFF')
 
 # pr_title = "ascd"
 # pr_body = "ascd"
