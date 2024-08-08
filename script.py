@@ -4,13 +4,13 @@ import requests
 
 client = OpenAI() 
 
-# pr_title = os.getenv('PR_TITLE')
-# pr_body = os.getenv('PR_BODY')
-# pr_diff = os.getenv('PR_DIFF')
+pr_title = os.getenv('PR_TITLE')
+pr_body = os.getenv('PR_BODY')
+pr_diff = os.getenv('PR_DIFF')
 
-pr_title = "ascd"
-pr_body = "ascd"
-pr_diff = "ascd"
+# pr_title = "ascd"
+# pr_body = "ascd"
+# pr_diff = "ascd"
 
 api_url = "https://cce5-2401-4900-883a-c826-ad65-ff97-88f7-1d66.ngrok-free.app"
 
