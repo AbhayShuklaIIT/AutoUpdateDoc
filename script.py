@@ -82,5 +82,5 @@ result = (generate_text(prompt))
 # f = open("README.md", "a")
 print(result)
 # f.write(result+"Abhay")
-append_to_support_doc(api_url, result)
+append_to_support_doc(api_url, "Suggested changes by AI\n\n" + result)
 
