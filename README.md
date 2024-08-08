@@ -1,27 +1,27 @@
-##Flask Inventory Server Documentation
-#Introduction
+## Flask Inventory Server Documentation
+# Introduction 
 This document provides an overview of the Flask-based Inventory Server, including its setup, usage, and API endpoints. The server allows you to add, update, delete, and retrieve inventory items.
 
-##Prerequisites
+## Prerequisites
 Python 3.6 or higher
 Flask library
 Installation
 Install Flask:
 Open your terminal or command prompt and run the following command to install Flask:
 
-##bash
+## bash
 pip install Flask
 Download the Inventory Server Script:
 Save the provided Flask app code into a file named inventory_server.py.
 
-##Running the Server
+## Running the Server
 To run the inventory server, execute the following command in your terminal:
 
 bash
 python inventory_server.py
 The server will start running on http://127.0.0.1:5000.
 
-##API Endpoints
+## API Endpoints
 1. Add a New Item
 Endpoint: /inventory
 Method: POST
